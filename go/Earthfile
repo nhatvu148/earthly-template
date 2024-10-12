@@ -1,0 +1,23 @@
+VERSION 0.8
+FROM golang:1.23.2-alpine3.20
+WORKDIR /app
+
+deps:
+    COPY go.mod go.sum ./
+    RUN go mod download
+    # Output these back in case go mod download changes them.
+    SAVE ARTIFACT go.mod AS LOCAL go.mod
+    SAVE ARTIFACT go.sum AS LOCAL go.sum
+
+build:
+    FROM +deps
+    COPY main.go .
+    RUN go build -o output/example main.go
+    SAVE ARTIFACT output/example AS LOCAL local-output/go-example
+# The syntax for SAVE ARTIFACT defaults the destination path to / - so our artifact will be called /example (it can be later referenced as +build/example).
+# If we wanted to save it at a different path, we could use SAVE ARTIFACT output/example /some/path/to/example and refer to it later as +build/some/path/to/example.
+
+docker:
+    COPY +build/example .
+    ENTRYPOINT ["/app/example"]
+    SAVE IMAGE go-example:latest
