@@ -17,3 +17,5 @@
 - [monorepo example](https://github.dev/furqanshahid85-python/python-monerepo/blob/main/earthly/requirements.txt)
 - [Rust functions](https://github.com/earthly/lib/blob/main/rust/README.md)
 - [Google OAuth 2.0 Playground](https://developers.google.com/oauthplayground)
+- [Google OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/oauth2/scopes)
+- [Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
