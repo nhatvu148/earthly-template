@@ -21,3 +21,34 @@ docker:
     RUN pip install --no-index --find-links=wheels -r requirements.txt
     ENTRYPOINT ["python3", "./src/hello.py"]
     SAVE IMAGE python-example:$tag
+
+hush:
+    RUN --secret passwd echo "my password is $passwd"
+
+generate-phrase:
+    RUN curl https://raw.githubusercontent.com/jsvine/markovify/master/test/texts/sherlock.txt > /app/sherlock.txt
+    COPY src/generate_phrase.py src/utils.py .
+    RUN pip3 install markovify
+    ARG NO_CACHE
+    RUN --no-cache=$NO_CACHE python3 generate_phrase.py
+    SAVE ARTIFACT output.txt AS LOCAL output.txt
+
+server:
+    COPY src/server.py .
+
+test:
+    FROM docker:27.3.1-dind
+    RUN apk add curl
+    WITH DOCKER --load server:latest=+server
+        RUN docker run --rm -d --network=host server:latest python3 server.py && sleep 5 && curl -s localhost:8000 | grep Hello
+    END
+    # RUN false # interactive debugger
+
+    # WITH DOCKER --load server:latest=+server
+    #     RUN docker run -v ./screenshots:/screenshots ... && \
+    #         docker logs ... >./full-logs.txt && \
+    #         docker inspect ... >./some-docker-state.json
+    # END
+    # SAVE ARTIFACT ./screenshots
+    # SAVE ARTIFACT ./full-logs.txt
+    # SAVE ARTIFACT ./some-docker-state.json
