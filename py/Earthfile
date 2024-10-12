@@ -52,3 +52,9 @@ test:
     # SAVE ARTIFACT ./screenshots
     # SAVE ARTIFACT ./full-logs.txt
     # SAVE ARTIFACT ./some-docker-state.json
+
+# all:
+#     BUILD +build
+#     BUILD +docker
+#     BUILD +unit-test
+#     BUILD +integration-test
