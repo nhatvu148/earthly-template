@@ -1,0 +1,27 @@
+VERSION 0.8
+FROM node:22-alpine3.19
+WORKDIR /app
+
+deps:
+    COPY package.json ./
+    COPY yarn.lock ./
+    RUN yarn install
+    SAVE ARTIFACT package.json AS LOCAL ./package.json
+    SAVE ARTIFACT yarn.lock AS LOCAL ./yarn.lock
+
+build:
+    FROM +deps
+    COPY src src
+    RUN mkdir -p ./dist && cp ./src/index.html ./dist/
+    RUN npx webpack
+    SAVE ARTIFACT dist /dist AS LOCAL dist
+
+docker:
+    BUILD +deps
+    BUILD +build
+    FROM +deps
+    ARG tag='latest'
+    COPY +build/dist ./dist
+    EXPOSE 8080
+    ENTRYPOINT ["/app/node_modules/http-server/bin/http-server", "./dist"]
+    SAVE IMAGE js-example:$tag
