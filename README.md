@@ -15,3 +15,4 @@
 - [Debugging techniques](https://docs.earthly.dev/docs/guides/debugging)
 - [Best practices](https://docs.earthly.dev/docs/guides/best-practices)
 - [monorepo example](https://github.dev/furqanshahid85-python/python-monerepo/blob/main/earthly/requirements.txt)
+- [Rust functions](https://github.com/earthly/lib/blob/main/rust/README.md)
