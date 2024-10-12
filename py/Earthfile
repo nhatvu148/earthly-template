@@ -49,6 +49,24 @@ test-upload-gdrive:
         RUN --no-cache docker run --rm upload-gdrive-image:latest python3 upload_gdrive.py
     END
 
+get-token:
+    FROM +deps
+    COPY src/ .
+    COPY requirements.txt .env ./
+    RUN pip install --no-index --find-links=wheels -r requirements.txt
+    ARG NO_CACHE
+    RUN --no-cache=$NO_CACHE python3 get_token.py
+    SAVE ARTIFACT access_token_response.json AS LOCAL access_token_response.json
+
+refresh-token:
+    FROM +deps
+    COPY src/ .
+    COPY requirements.txt .env access_token_response.json ./
+    RUN pip install --no-index --find-links=wheels -r requirements.txt
+    ARG NO_CACHE
+    RUN --no-cache=$NO_CACHE python3 refresh_token.py
+    SAVE ARTIFACT refresh_token_response.json AS LOCAL refresh_token_response.json
+
 server:
     COPY src/server.py .
 
