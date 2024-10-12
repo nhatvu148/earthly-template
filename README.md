@@ -5,3 +5,7 @@
 - docker run --rm cmake-test:latest
 - podman run --rm cmake-test:latest
 - earthly +docker --tag='my-new-image-tag'
+
+## References
+
+- Using Docker with Earthly: [link 1](https://github.com/earthly/earthly/blob/main/examples/tutorial/js/part6/Earthfile) and [link 2](https://docs.earthly.dev/basics/part-6-using-docker-with-earthly)
