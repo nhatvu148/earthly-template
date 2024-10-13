@@ -9,6 +9,20 @@
 - earthly --build-arg NO_CACHE=true +generate-phrase
 - earthly --no-cache +generate-phrase
 
+## Task commands
+
+- Reading a Taskfile from stdin
+
+```bash
+task -t - <(cat ./Taskfile.yml)
+# OR
+cat ./Taskfile.yml | task -t -
+```
+
+- task -a
+- task --parallel task-to-be-called another-task
+- [Usage](https://taskfile.dev/usage)
+
 ## References
 
 - Using Docker with Earthly: [link 1](https://github.com/earthly/earthly/blob/main/examples/tutorial/js/part6/Earthfile) and [link 2](https://docs.earthly.dev/basics/part-6-using-docker-with-earthly)
