@@ -33,3 +33,4 @@ cat ./Taskfile.yml | task -t -
 - [Google OAuth 2.0 Playground](https://developers.google.com/oauthplayground)
 - [Google OAuth 2.0 Scopes](https://developers.google.com/identity/protocols/oauth2/scopes)
 - [Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
+- [How to get Access token](https://www.daimto.com/how-to-get-a-google-access-token-with-curl)
