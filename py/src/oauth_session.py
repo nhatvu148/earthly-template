@@ -6,6 +6,7 @@ import webbrowser
 import os
 from dotenv import load_dotenv
 
+
 class HTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     parsed_path = None
 
@@ -27,16 +28,19 @@ class HTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         </html>
         """)
 
+
 def start_auth_server():
     httpd = http.server.HTTPServer(('0.0.0.0', 3456), HTTPRequestHandler)
     server_thread = threading.Thread(target=httpd.handle_request)
     server_thread.start()
     server_thread.join()
 
+
 def fetch_code_and_close(redirect_response):
     params = parse_qs(redirect_response.query)
     code = params['code'][0]
     return code
+
 
 def main():
     load_dotenv()
@@ -59,6 +63,7 @@ def main():
     redirect_response = HTTPRequestHandler.parsed_path
     code = fetch_code_and_close(redirect_response)
     print("Authorization code: ", code)
+
 
 if __name__ == "__main__":
     main()

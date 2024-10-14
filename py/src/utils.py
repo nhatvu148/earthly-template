@@ -1,5 +1,6 @@
 import json
 
+
 def print_colored(text, color_code):
     """
     Prints the given text in the specified ANSI color.
@@ -14,6 +15,7 @@ def print_colored(text, color_code):
 # print_colored("This is an informational message.", "92")  # Green
 # print_colored("This is a warning message.", "93")        # Yellow
 # print_colored("This is an error message.", "91")         # Red
+
 
 def write_json(data, filename='response.json'):
     """Write data to a JSON file."""

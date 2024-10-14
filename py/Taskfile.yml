@@ -47,13 +47,24 @@ tasks:
 
   upload-gdrive:
     cmds:
-      - earthly -iP +upload-gdrive
+      - cp "{{.FILE_DIR}}/{{.FILE_NAME}}" "{{.DEST_DIR}}/{{.FILE_NAME}}"
+      # - earthly -iP +upload-gdrive
 
   run-upload:
     cmds:
       - task: update-env
-      - task: copy-upload-file
+      # - task: copy-upload-file
       - task: upload-gdrive
 
   up:
-    deps: [update-env, copy-upload-file, upload-gdrive]
+    deps: [update-env, upload-gdrive]
+
+  check-py:
+    deps: [venv]
+    cmds:
+      - "{{.PYTHON}} -m autopep8 --in-place --aggressive --recursive src"
+      - "{{.PYTHON}} -m flake8 --ignore=E501 src"
+
+  polars:
+    cmds:
+      - "{{.PYTHON}} src/test_polars.py"
