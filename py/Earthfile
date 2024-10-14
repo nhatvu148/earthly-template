@@ -27,44 +27,42 @@ hush:
 
 generate-phrase:
     RUN curl https://raw.githubusercontent.com/jsvine/markovify/master/test/texts/sherlock.txt > /app/sherlock.txt
-    COPY src/generate_phrase.py src/utils.py .
+    COPY src/generate_phrase.py src/utils.py ./src
     RUN pip3 install markovify
     ARG NO_CACHE
-    RUN --no-cache=$NO_CACHE python3 generate_phrase.py
+    RUN --no-cache=$NO_CACHE python3 src/generate_phrase.py
     SAVE ARTIFACT output.txt AS LOCAL output.txt
 
 upload-gdrive:
-    FROM +deps
-    COPY src/ .
+    FROM +build
+    COPY data/ ./data
     COPY requirements.txt .env ./
     RUN pip install --no-index --find-links=wheels -r requirements.txt
-    SAVE IMAGE upload-gdrive-image:latest
-    # ARG NO_CACHE
-    # RUN --no-cache=$NO_CACHE python3 upload_gdrive.py
+    # SAVE IMAGE upload-gdrive-image:latest
+    ARG NO_CACHE
+    RUN --no-cache=$NO_CACHE python3 src/upload_gdrive.py
 
 test-upload-gdrive:
     FROM docker:27.3.1-dind
     RUN apk add curl
     WITH DOCKER --load upload-gdrive-image:latest=+upload-gdrive
-        RUN --no-cache docker run --rm upload-gdrive-image:latest python3 upload_gdrive.py
+        RUN --no-cache docker run --rm upload-gdrive-image:latest python3 src/upload_gdrive.py
     END
 
 get-token:
-    FROM +deps
-    COPY src/ .
+    FROM +build
     COPY requirements.txt .env ./
     RUN pip install --no-index --find-links=wheels -r requirements.txt
     ARG NO_CACHE
-    RUN --no-cache=$NO_CACHE python3 get_token.py
+    RUN --no-cache=$NO_CACHE python3 src/get_token.py
     SAVE ARTIFACT access_token_response.json AS LOCAL access_token_response.json
 
 refresh-token:
-    FROM +deps
-    COPY src/ .
+    FROM +build
     COPY requirements.txt .env access_token_response.json ./
     RUN pip install --no-index --find-links=wheels -r requirements.txt
     ARG NO_CACHE
-    RUN --no-cache=$NO_CACHE python3 refresh_token.py
+    RUN --no-cache=$NO_CACHE python3 src/refresh_token.py
     SAVE ARTIFACT refresh_token_response.json AS LOCAL refresh_token_response.json
 
 server:

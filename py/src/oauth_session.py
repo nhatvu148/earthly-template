@@ -28,7 +28,7 @@ class HTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         """)
 
 def start_auth_server():
-    httpd = http.server.HTTPServer(('0.0.0.0', 3001), HTTPRequestHandler)
+    httpd = http.server.HTTPServer(('0.0.0.0', 3456), HTTPRequestHandler)
     server_thread = threading.Thread(target=httpd.handle_request)
     server_thread.start()
     server_thread.join()
@@ -42,7 +42,7 @@ def main():
     load_dotenv()
 
     client_id = os.getenv('GG_CLIENT_ID')
-    redirect_uri = 'http://localhost:3001'
+    redirect_uri = 'http://localhost:3456'
     authorization_base_url = "https://accounts.google.com/o/oauth2/v2/auth"
     scope = ["https://www.googleapis.com/auth/drive"]
 

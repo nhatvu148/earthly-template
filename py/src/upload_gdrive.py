@@ -39,7 +39,7 @@ def upload_file(headers, file_path, file_metadata):
 
 def main():
     headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
-    file_path = f"./{FILE_NAME}"
+    file_path = f"/app/data/{FILE_NAME}"
 
     # Search and delete the file if it exists
     files = search_file(headers, FILE_NAME, PARENT_ID)

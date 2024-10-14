@@ -25,7 +25,7 @@ tasks:
       - python3 -m venv venv
       - "{{.PIP}} install -r requirements.txt"
 
-  run:
+  oauth-session:
     desc: "Run the oauth_session.py script"
     deps: [venv]
     cmds:

@@ -10,7 +10,7 @@ def get_access_token(client_id, client_secret, authorization_code):
         'code': authorization_code,
         'client_id': client_id,
         'client_secret': client_secret,
-        'redirect_uri': 'http://localhost:3001',
+        'redirect_uri': 'http://localhost:3456',
         'grant_type': 'authorization_code'
     }
     response = requests.post(url, data=payload)
