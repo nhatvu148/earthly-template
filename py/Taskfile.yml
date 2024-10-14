@@ -35,6 +35,11 @@ tasks:
     desc: "Upload image using Docker and redirect output to a log file"
     cmds:
       - docker run --rm upload-gdrive-image:latest python3 upload_gdrive.py > output.log 2>&1
+  
+  copy-upload-file:
+    cmds:
+      - mkdir -p ./data
+      - cp "{{.FILE_DIR}}/{{.FILE_NAME}}" "./data/{{.FILE_NAME}}"
 
   task-to-be-called:
     cmds:
