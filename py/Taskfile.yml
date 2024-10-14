@@ -50,7 +50,7 @@ tasks:
       - earthly -iP +upload-gdrive
 
   run-upload:
-    deps:
+    cmds:
       - task: update-env
       - task: copy-upload-file
       - task: upload-gdrive
