@@ -36,24 +36,24 @@ tasks:
     cmds:
       - docker run --rm upload-gdrive-image:latest python3 upload_gdrive.py > output.log 2>&1
   
+  update-env:
+    cmds:
+      - "{{.PYTHON}} src/update_env.py"
+
   copy-upload-file:
     cmds:
       - mkdir -p ./data
       - cp "{{.FILE_DIR}}/{{.FILE_NAME}}" "./data/{{.FILE_NAME}}"
 
-  task-to-be-called:
+  upload-gdrive:
     cmds:
-      - echo "Task to be called"
+      - earthly -iP +upload-gdrive
 
-  another-task:
-    cmds:
-      - echo "Another task"
-
-  main-task:
-    cmds:
-      - task: task-to-be-called
-      - task: another-task
-      - echo "Both done"
+  run-upload:
+    deps:
+      - task: update-env
+      - task: copy-upload-file
+      - task: upload-gdrive
 
   up:
-    deps: [task-to-be-called, another-task]
+    deps: [update-env, copy-upload-file, upload-gdrive]
