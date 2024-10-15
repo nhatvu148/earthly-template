@@ -10,8 +10,10 @@ vars:
   PIP: "{{.VENV_BIN_DIR}}/pip"
   PYTHON: "{{.VENV_BIN_DIR}}/python"
 
+silent: true
+
 tasks:
-  checkenv:
+  check-env:
     desc: "Check environment variables"
     dotenv: [".env", "{{.ENV}}/.env", "{{.HOME}}/.env"]
     env:

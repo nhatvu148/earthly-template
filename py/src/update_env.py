@@ -47,7 +47,7 @@ def update_env_variable(env_path, variable_name, new_value):
         lines.append(f'{variable_name}="{new_value}"\n')
 
     write_env_file(env_path, lines)
-    print(f"Updated {variable_name} in .env to {new_value}")
+    # print(f"Updated {variable_name} in .env to {new_value}")
 
 
 def update_access_token_from_json(env_path, json_path):
