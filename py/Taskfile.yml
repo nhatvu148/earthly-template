@@ -28,6 +28,7 @@ tasks:
       - "{{.PIP}} install -r requirements.txt"
 
   oauth-session:
+    aliases: [oases]
     desc: "Run the oauth_session.py script"
     deps: [venv]
     cmds:
@@ -39,27 +40,31 @@ tasks:
       - docker run --rm upload-gdrive-image:latest python3 upload_gdrive.py > output.log 2>&1
   
   update-env:
+    aliases: [upen]
     cmds:
       - "{{.PYTHON}} src/update_env.py"
 
   copy-upload-file:
+    aliases: [coupfi]
     cmds:
       - mkdir -p ./data
       - cp "{{.FILE_DIR}}/{{.FILE_NAME}}" "./data/{{.FILE_NAME}}"
 
   upload-gdrive:
+    aliases: [upgd]
     cmds:
       - cp "{{.FILE_DIR}}/{{.FILE_NAME}}" "{{.DEST_DIR}}/{{.FILE_NAME}}"
       # - earthly -iP +upload-gdrive
 
   run-upload:
+    aliases: [ruup]
     cmds:
-      - task: update-env
-      # - task: copy-upload-file
-      - task: upload-gdrive
+      - task: upen
+      # - task: coupfi
+      - task: upgd
 
   up:
-    deps: [update-env, upload-gdrive]
+    deps: [upen, upgd]
 
   check-py:
     deps: [venv]
