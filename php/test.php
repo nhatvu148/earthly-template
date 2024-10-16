@@ -53,6 +53,31 @@
     // __TRAIT__
     echoFuncName();
     echo "</br>";
+
+    $members = array("Peter"=>"35", "Ben"=>"37", "Joe"=>"43");
+    foreach ($members as $x => $y) {
+    echo "$x : $y <br>";
+    }
+
+    $colors = array("red", "green", "blue", "yellow");
+    foreach ($colors as $x) {
+    if ($x == "blue") break;
+    echo "$x <br>";
+    }
+
+    $myCar = new Car("red", "Volvo");
+    foreach ($myCar as $x => $y) {
+    echo "$x: $y <br>";
+    }
+
+    // by using the & character in the foreach declaration, the array item is assigned by reference, which results in any changes done to the array item will also be done to the original array
+    $colors = array("red", "green", "blue", "yellow");
+    foreach ($colors as &$x) {
+    if ($x == "blue") $x = "pink";
+    }
+    var_dump($colors);
+
+    echo "</br>";
 ?>
 <!DOCTYPE html>
 <html>
