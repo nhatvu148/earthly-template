@@ -1,0 +1,31 @@
+version: "3"
+
+env:
+  ENV: testing
+
+dotenv: [".env", "{{.ENV}}/.env", "{{.HOME}}/.env"]
+
+vars:
+  VENV_BIN_DIR: venv/bin
+  PIP: "{{.VENV_BIN_DIR}}/pip"
+  PYTHON: "{{.VENV_BIN_DIR}}/python"
+
+silent: true
+
+tasks:
+  venv:
+    desc: "Create a virtual environment and install requirements"
+    cmds:
+      - python3 -m venv venv
+      - "{{.PIP}} install -r requirements.txt"
+
+  check-py:
+    deps: [venv]
+    cmds:
+      - "{{.PYTHON}} -m autopep8 --in-place --aggressive --recursive src"
+      - "{{.PYTHON}} -m flake8 --ignore=E501,F841,F401 src"
+
+  run:
+    deps: [check-py]
+    cmds:
+      - "{{.PYTHON}} src/main.py"
